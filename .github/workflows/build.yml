@@ -161,6 +161,22 @@ jobs:
           compression-level: 0
           if-no-files-found: error
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: gsi-builder-${{ github.run_number }}
+          name: "GSI Builder Release #${{ github.run_number }}"
+          body: |
+            Automated GSI Builder release.
+            - Input URL: ${{ inputs.gsi_url }}
+            - Filesystem: ${{ inputs.output_fs }}
+            - Compression: ${{ inputs.compress_output }}
+          files: |
+            ${{ steps.artifact_finder.outputs.artifact_path }}
+            ${{ steps.artifact_finder.outputs.checksum_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload checksum
         uses: actions/upload-artifact@v4
         with:

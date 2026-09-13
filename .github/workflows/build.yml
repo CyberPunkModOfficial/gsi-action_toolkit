@@ -79,6 +79,8 @@ on:
           - xz
           - 7z
         default: none
+permissions:
+ contents: write
 
 jobs:
   build:
